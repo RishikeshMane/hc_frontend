@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 
 const LodgeGrievance = () => {
+    const [Image,setImage] = useState({});
   
    const [data, setData] = useState({
     name: "",
@@ -22,7 +23,7 @@ const LodgeGrievance = () => {
     },
   };
 
-    const addto = (data) => {
+    const addto = async () => {
         console.log("done");
         //console.log(data);
         var formdata = new FormData();
@@ -38,7 +39,7 @@ const LodgeGrievance = () => {
         formdata.append('image',data.image );
         //console.log(formdata);
         
-        const resp = axios.post("http://localhost:7000/prgi",formdata,config);
+        const resp = axios.post("http://localhost:7000/prgi",formdata);
         //console.log(resp);
         console.log()
       };
@@ -49,25 +50,13 @@ const LodgeGrievance = () => {
     
       const InputEvent = (event) => {
         const { name, value } = event.target;
-    
-        // setData((preVal) => {
-        //   return {
-        //     ...preVal,
-        //     [name]: value,
-        //   };
-        // });
+
         setData({...data,[name]:value});
       };
+
      const handlefile=(e)=>{
-      // const { name, value } = e.target;
-      // setData((preVal) => {
-      //   return{
-      //     ...preVal,
-      //     [name]: value,
-      //   };
-      // })
       console.log('img upload');
-      console.log(e.target.files[0]);
+      console.log(e.target.files);
       setData({ ...data, [e.target.name]: e.target.files[0]})
 
      }
@@ -76,6 +65,23 @@ const LodgeGrievance = () => {
         addto(data);
     
       };
+      
+      const fileonchange = (event) =>{
+          setImage(event.target.files[0]);
+      }
+      const sendImage = (event) =>{
+          let formData = new FormData();
+
+        formData.append('avtar',Image)
+
+          fetch('http://localhost:7000/uploadfile',{
+              method:'post',
+              body:formData,
+          }).then((res) => res.text())
+            .then((resBody)=>{
+              console.log(resBody)
+          })
+      }
     return(
         <>
             <section className="container-fluid" id="lodge-grievance">
@@ -86,7 +92,7 @@ const LodgeGrievance = () => {
                 </div>
                 <div className="row">
                     <div className="col-md-7 px-2 mx-auto my-5">
-                        <form onSubmit={formSubmit}>
+                        <form onSubmit={formSubmit}  encType="multipart/form-data">
                             <div className="form-group">
                                 <label htmlFor="Name">Your Name<span className="asterisk">*</span></label>
                                 <input type="text" className="form-control" required name="name" value={data.name} onChange={InputEvent} id="Name" />
@@ -126,11 +132,11 @@ const LodgeGrievance = () => {
                                 Please do not use the special character(~, `, !, $, ^, *, [, ], |, '', --) for entry</small>
                             </div>
                             <div className="custom-file">
-                                <input  type="file" className="custom-file-input" id="customFile" name="image" onChange={handlefile} />
+                                <input  type="file" className="custom-file-input" id="customFile" name="image" multiple onChange={handlefile} />
                                 <label className="custom-file-label" htmlFor="customFile">Upload Document, if required</label>
                                 <small className="form-text text-muted">Photo size should less than 2MB</small>
                             </div>
-                            <button type="submit" className="btn-lodge-grievance">Submit</button>
+                            <button type="submit" className="btn-lodge-grievance" onClick={addto} >Submit</button>
                         </form>
                     </div>
                 </div>

@@ -29,30 +29,28 @@ const RegistrationForm = () =>{
         },
       };
 
-    const addtolist = () => {
-        console.log("done");
-        const formdata = new FormData();
-        formdata.append('name',data.name );
-        formdata.append('number1',data.number1 );
-        formdata.append('number2',data.number2 );
-        formdata.append('email',data.email );
-        formdata.append('address',data.address );
-        formdata.append('city',data.city );
-        formdata.append('state',data.state );
-        formdata.append('zipcode',data.zipcode );
-        formdata.append('qualification',data.qualification );
-        formdata.append('profession',data.profession );
-        formdata.append('facebooklink',data.facebooklink );
-        formdata.append('twitterlink',data.twitterlink );
-        formdata.append('instagramlink',data.instagramlink );
-        formdata.append('reasontocontribute',data.reasontocontribute );
-        formdata.append('hours',data.hours );
-        formdata.append('days',data.days );
-        formdata.append('image',data.image );
-        console.log(data)
-        const resp = axios.post("http://localhost:7000/volu",formdata,config
-        );
-        
+    const addtolist = async () => {
+        // console.log("uim",data.image)
+        // console.log(data);
+        var formData = new FormData();
+        formData.append('Name', data.name);
+        formData.append('Number1', data.number1);
+        formData.append('Number2',data.number2);
+        formData.append('Email', data.email);
+        formData.append('Address', data.address);
+        formData.append('City', data.city);
+        formData.append('State', data.state);
+        formData.append('Zipcode', data.zipcode);
+        formData.append('Qualification', data.qualification);
+        formData.append('Profession', data.profession);
+        formData.append('Facebooklink', data.facebooklink);
+        formData.append('Twitterlink', data.twitterlink);
+        formData.append('Instagramlink', data.instagramlink);
+        formData.append('Reasontocontribute', data.reasontocontribute);
+        formData.append('Hours', data.hours);
+        formData.append('Days', data.days);
+        formData.append('image', data.image);
+        const resp = axios.post("http://localhost:7000/volu",formData);
       };
     
     
@@ -90,7 +88,7 @@ const RegistrationForm = () =>{
                 </div>
                 <div className="row">
                     <div className="col-md-7 px-2 mx-auto my-5">
-                        <form onSubmit={formSubmit}>
+                        <form onSubmit={formSubmit} encType="multipart/form-data">
                             <div className="form-group">
                                 <label htmlFor="InputName">Name<span className="asterisk">*</span></label>
                                 <input type="text" className="form-control" required name="name" value={data.name} placeholder="Enter your name" onChange={InputEvent} id="InputName" />
@@ -171,7 +169,7 @@ const RegistrationForm = () =>{
                                 </div>
                             </div>
                             <div className="custom-file">
-                                <input type="file" className="custom-file-input" id="customFile" name="uploadfile"  onChange={handlefile} />
+                                <input type="file" className="custom-file-input" id="customFile" name="image"  onChange={handlefile} />
                                 <label className="custom-file-label" htmlFor="customFile">Upload your passport size photo<span className="asterisk">*</span></label>
                                 <small id="emailHelp" className="form-text text-muted">Photo size should less than 2MB</small>
                             </div>
