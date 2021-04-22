@@ -76,7 +76,7 @@ const RegistrationForm = () =>{
      }
       const formSubmit = (e) => {
         e.preventDefault();
-        addtolist(data);
+        //addtolist(data);
       };
     return(
         <>
